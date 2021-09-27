@@ -8,6 +8,7 @@ const APIKEY = "a7a4639ba9603356620de23e26aeacba";
 const PlaceForm = () => {
   const [placeName, setPlaceName] = useState("");
   const [dataApi, setDataApi] = useState([]);
+
   const SubmitFormUtility = async (e) => {
     e.preventDefault();
     if (placeName.trim() === "") {
@@ -16,9 +17,10 @@ const PlaceForm = () => {
     const { data } = await axios.get(
       `http://api.positionstack.com/v1/forward?access_key=${APIKEY}&query=${placeName}`
     );
-    console.log(data.data[0]);
+    // console.log(data.data[0]);
     setDataApi(data);
   };
+  console.log(dataApi.data);
   return (
     <div className="container">
       <form onSubmit={SubmitFormUtility}>
@@ -44,14 +46,14 @@ const PlaceForm = () => {
       </form>
       <div className="row">
         <div className="col-12 col-md-6">
-          {dataApi.length !== 0 && (
+          {dataApi.length !== 0 && dataApi.data.length !== 0 && (
             <>
               <Cards name="Latitude" typeValue={dataApi.data[0].latitude} />
             </>
           )}
         </div>
         <div className="col-12 col-md-6">
-          {dataApi.length !== 0 && (
+          {dataApi.length !== 0 && dataApi.data.length !== 0 && (
             <>
               <Cards name="Longitude" typeValue={dataApi.data[0].longitude} />
             </>
@@ -60,7 +62,7 @@ const PlaceForm = () => {
       </div>
       <div className="row">
         <div className="col-10 col-md-8">
-          {dataApi.length !== 0 && (
+          {dataApi.length !== 0 && dataApi.data.length !== 0 && (
             <WeatherCards
               latitude={dataApi.data[0].latitude}
               longitude={dataApi.data[0].longitude}
@@ -68,13 +70,14 @@ const PlaceForm = () => {
           )}
         </div>
         <div className="col-10 col-md-4">
-          {dataApi.length !== 0 && (
-            // <Maps
-            //   latitude={dataApi.data[0].latitude}
-            //   longitude={dataApi.data[0].longitude}
-            
-            // />
-            <h3>Helo Maps {console.log(typeof dataApi.data[0].latitude)} </h3>
+          {dataApi.length !== 0 && dataApi.data.length !== 0 && (
+            <>
+              <h3>Map</h3>
+              <Maps
+                lng={dataApi.data[0].longitude}
+                lat={dataApi.data[0].latitude}
+              />
+            </>
           )}
         </div>
       </div>

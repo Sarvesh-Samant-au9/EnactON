@@ -10,19 +10,19 @@ const WeatherCards = ({ latitude, longitude }) => {
     const { data } = await axios.get(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Asia%2FSingapore`
     );
-    console.log(typeof data);
+    // console.log(typeof data);
     setWeatherData(data);
   };
-  console.log(weatherData.data);
+  // console.log(weatherData.data);
   return (
-    <div className="col-10 col-md-6">
+    <>
       {weatherData.length !== 0 && (
         <div className="card border-dark mb-3" style={{ width: "100%" }}>
           <h3 className="card-header">Weather Info</h3>
 
           <ul className="list-group list-group-flush card-body text-dark">
             {weatherData.daily.time.map((ele, index) => (
-              <li className="list-group-item">
+              <li className="list-group-item" key={index}>
                 <WeatherDatAContainer>
                   <h5>{ele}</h5>
                   <h5>
@@ -35,7 +35,7 @@ const WeatherCards = ({ latitude, longitude }) => {
           </ul>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
